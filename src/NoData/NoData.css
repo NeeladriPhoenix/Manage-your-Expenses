@@ -1,0 +1,21 @@
+.no-data {
+  margin-top: 15%;
+}
+
+.nodata-label {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 34px;
+  color: rgba(22, 47, 86, 0.87);
+  text-align: center;
+}
+
+.nodata-info {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(22, 47, 86, 0.54);
+}

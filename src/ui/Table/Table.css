@@ -1,0 +1,42 @@
+table {
+  width: 100%;
+}
+
+.table-heading-row {
+  background: rgba(11, 112, 231, 0.02);
+}
+
+th {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(22, 47, 86, 0.87);
+  border: none;
+  padding: 10px;
+  text-align: center;
+}
+
+tr {
+  border: 1px solid rgba(11, 112, 231, 0.1);
+  transition: all 0.25s ease-in-out;
+}
+
+tr:last-child td,
+tr:last-child th {
+  border: 0;
+}
+
+tbody > tr:hover {
+  background: #ffffe0;
+}
+
+td {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(22, 47, 86, 0.74);
+  border: none;
+  padding: 20px;
+  text-align: center;
+}

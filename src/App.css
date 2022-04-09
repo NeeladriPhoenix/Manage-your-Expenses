@@ -1,38 +1,180 @@
-.App {
-  text-align: center;
+.main-container {
+  display: flex;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sidebar__container {
+  background-color: #162f56;
+  color: white;
+  flex: 0.2;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.sidebar__link {
+  margin: 11px 17px;
+  padding: 7px;
+  transition: all 0.25s ease-in-out;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sidebar__link:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-radius: 2px;
+}
+
+.sidebar__linkLabel {
+  padding-left: 9px;
+}
+
+.content {
+  flex: 0.8;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.content__container {
+  margin: 25px;
+  background: #ffffff;
+  border: 1px solid #edf0f5;
+  box-shadow: 0px 4px 10px rgba(11, 112, 231, 0.05);
+  border-radius: 4px;
+  height: calc(100vh - 50px);
+}
+
+.grid {
+  display: grid;
+  place-items: center;
+}
+
+form {
+  padding: 20px;
+  background: rgba(224, 228, 249, 0.32);
+  border-radius: 4px;
+}
+
+.form-field {
   display: flex;
   flex-direction: column;
+  justify-content: start;
+  margin: 25px 9px;
+}
+
+.form-field > label {
+  color: rgba(22, 47, 86, 0.54);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+input,
+textarea {
+  outline: none;
+  width: 100%;
+}
+
+.form-field-input,
+.form-field-textarea {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background: #ffffff;
+  border-radius: 2px 2px 0px 0px;
+  padding: 7px 9px;
+  width: 250px;
+  outline: none;
+  border: 1px solid rgba(22, 47, 86, 0.1);
+  margin-top: 4px;
+  transition: all 0.25s ease-in-out;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 3px;
+}
+
+.form-field-input:focus,
+.form-field-textarea:focus {
+  border: 1px solid rgba(22, 47, 86, 0.3);
+}
+
+.form-field-textarea {
+  height: 120px;
+}
+
+.form-field-input-prefix {
+  margin: 0 -9px;
+  color: rgba(22, 47, 86, 0.54);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  margin: 0 9px;
+}
+
+.form-field > .large-input {
+  width: 400px;
+}
+
+.btn {
+  border-radius: 2px;
+  padding: 8px 24px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  align-items: center;
+  margin: 0 9px;
+}
+
+.btn-primary {
+  background: #2b83ea;
   color: white;
+  transition: all 0.25s ease-in-out;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary:hover {
+  background: #296ebe;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-outlined {
+  border: 1px solid #2b83ea;
+  color: #2b83ea;
+  transition: all 0.25s ease-in-out;
+}
+
+.btn-outlined:hover {
+  border: 1px solid #296ebe;
+  color: #296ebe;
+}
+
+.btn-text {
+  color: #2b83ea;
+  transition: all 0.25s ease-in-out;
+}
+
+.btn-text:hover {
+  color: #296ebe;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.filters__container {
+  width: 100%;
+  background: rgba(224, 228, 249, 0.32);
+  padding: 20px 25px;
+  display: flex;
+  align-items: end;
+}
+
+.actionBtn {
+  padding: 25px 9px;
+}
+
+.expense-container {
+  padding: 9px 15px;
+  margin: 17px 0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
