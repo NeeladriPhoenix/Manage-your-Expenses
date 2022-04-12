@@ -90,6 +90,7 @@ textarea {
   font-size: 14px;
   line-height: 20px;
   border-radius: 3px;
+  max-width: 100%;
 }
 
 .form-field-input:focus,
@@ -177,4 +178,14 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.drawer-header {
+  color: rgba(22, 47, 86, 0.64);
+  font-size: 1.1rem !important;
 }

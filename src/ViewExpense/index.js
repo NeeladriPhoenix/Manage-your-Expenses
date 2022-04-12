@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-import { TextInput } from "../ui/Input";
+import { TextInput, SelectInput } from "../ui/Input";
 import { PrimaryButton } from "../ui/Button";
 import Table from "../ui/Table";
 import StatusPill from "../ui/StatusPill";
 import Amount from "../ui/Amount";
 import NoData from "../NoData";
+import UpdateDetailsForm from "./UpdateDetailsForm";
 
 import db from "../firebase";
 import firebase from "firebase";
 
-import { useDisclosure } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -18,6 +18,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 export const expenseMap = {
@@ -38,15 +40,42 @@ const ViewExpense = () => {
     debited: "",
   });
   const [expenses, setExpenses] = useState([]);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [toUpdate, setToUpdate] = useState({});
+  const [periodsList, setPeriodsList] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
-  const getFirestore = async () => {
+  const fetchPeriods = async () => {
+    const events = await firebase
+      .firestore()
+      .collection("periods")
+      .orderBy("timeStamp", "desc");
+
+    events.get().then((querySnapshot) => {
+      const tempDoc = querySnapshot.docs.map((doc) => {
+        const resp = {
+          value: doc.data().periodValue,
+          label: doc.data().periodValue,
+        };
+        return resp;
+      });
+      setPeriodsList(tempDoc);
+    });
+  };
+
+  useEffect(() => {
+    fetchPeriods();
+  }, []);
+
+  const getExpensesData = async () => {
     const events = await firebase
       .firestore()
       .collection("expenses")
       .doc(selectedPeriod)
-      .collection(selectedPeriod);
+      .collection(selectedPeriod)
+      .orderBy("timeStamp", "desc");
     events.get().then((querySnapshot) => {
       const tempDoc = querySnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
@@ -57,7 +86,7 @@ const ViewExpense = () => {
 
   const searchPeriod = () => {
     if (selectedPeriod !== "") {
-      getFirestore();
+      getExpensesData();
     }
   };
 
@@ -79,6 +108,24 @@ const ViewExpense = () => {
     });
   };
 
+  const deleteRow = (id) => {
+    db.collection("expenses")
+      .doc(selectedPeriod)
+      .collection(selectedPeriod)
+      .doc(id)
+      .delete();
+
+    toast({
+      title: "Deleted Successfully.",
+      status: "success",
+      position: "top-right",
+      duration: 4000,
+      isClosable: true,
+    });
+
+    getExpensesData();
+  };
+
   const fields = [
     ["Date", (item) => item?.date],
     ["Amount (INR)", (item) => <Amount amount={item?.amount} />],
@@ -92,15 +139,38 @@ const ViewExpense = () => {
       ),
     ],
     ["Description", (item) => item?.desc],
+    [
+      "Actions",
+      (item) => (
+        <div className="row">
+          <PrimaryButton
+            label="Delete"
+            variant="primary"
+            onClick={() => {
+              deleteRow(item.id);
+            }}
+          />
+          <PrimaryButton
+            label="Update"
+            variant="outlined"
+            onClick={() => {
+              setToUpdate(item);
+              setOpenDrawer(!openDrawer);
+            }}
+          />
+        </div>
+      ),
+    ],
   ];
 
   return (
     <div className="content__container">
       <div className="filters__container">
-        <TextInput
+        <SelectInput
+          name="type"
           label="Enter Period"
-          name="period-filter"
           placeholder="mm-yyyy"
+          options={periodsList}
           value={selectedPeriod}
           onChange={(event) => {
             setSelectedPeriod(event.target.value);
@@ -145,6 +215,16 @@ const ViewExpense = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      {Object.keys(toUpdate).length > 0 && (
+        <UpdateDetailsForm
+          selectedPeriod={selectedPeriod}
+          item={toUpdate}
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          getExpensesData={getExpensesData}
+        />
+      )}
     </div>
   );
 };

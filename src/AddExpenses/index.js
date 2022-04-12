@@ -8,7 +8,7 @@ import firebase from "firebase";
 
 import { useToast } from "@chakra-ui/react";
 
-const amountTypes = [
+export const amountTypes = [
   {
     label: "Credited (Added)",
     value: "add",
@@ -31,7 +31,7 @@ const AddExpenses = () => {
     return new Date(date) !== "Invalid Date" && !isNaN(new Date(date));
   };
 
-  const addExpense = (event) => {
+  const addExpense = async (event) => {
     event.preventDefault();
 
     if (
@@ -54,6 +54,27 @@ const AddExpenses = () => {
           amountType: amountType,
           timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
         });
+
+      const events = await firebase.firestore().collection("periods");
+      let exists = false;
+      events.get().then((querySnapshot) => {
+        const tempDoc = querySnapshot.docs.map((doc) => {
+          if (doc.data().periodValue === collectionName) exists = true;
+        });
+        if (!exists)
+          db.collection("periods").add({
+            periodValue: collectionName,
+            timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+      });
+
+      toast({
+        title: "Expense Added Successfully",
+        status: "success",
+        position: "top-right",
+        duration: 4000,
+        isClosable: true,
+      });
 
       setDate("");
       setAmount("");
