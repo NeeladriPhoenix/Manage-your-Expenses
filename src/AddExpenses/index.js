@@ -28,7 +28,9 @@ const AddExpenses = () => {
   const toast = useToast();
 
   const isDate = function (date) {
-    return new Date(date) !== "Invalid Date" && !isNaN(new Date(date));
+    const dateArraySplit = date.split("/");
+    const newDate = `${dateArraySplit[2]}-${dateArraySplit[1]}-${dateArraySplit[0]}`;
+    return new Date(newDate) !== "Invalid Date" && !isNaN(new Date(newDate));
   };
 
   const addExpense = async (event) => {
