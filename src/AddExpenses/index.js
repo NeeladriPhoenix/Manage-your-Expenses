@@ -24,6 +24,7 @@ const AddExpenses = () => {
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState("");
   const [amountType, setAmountType] = useState("add");
+  const [couponApplied, setCouponApplied] = useState(0);
 
   const toast = useToast();
 
@@ -54,6 +55,7 @@ const AddExpenses = () => {
           desc: desc,
           amount: amount,
           amountType: amountType,
+          couponApplied: couponApplied,
           timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
         });
 
@@ -139,6 +141,20 @@ const AddExpenses = () => {
             setAmountType(event.target.value);
           }}
         />
+        <SelectInput
+          name="coupons"
+          label="Coupon Applied"
+          options={[
+            { label: "Yes", value: 1 },
+            { label: "No", value: 0 },
+          ]}
+          largeWidth={true}
+          value={couponApplied}
+          onChange={(event) => {
+            setCouponApplied(event.target.value);
+          }}
+        />
+
         <PrimaryButton
           label="ADD"
           fullWidth={true}

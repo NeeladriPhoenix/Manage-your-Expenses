@@ -38,6 +38,7 @@ const ViewExpense = () => {
   const [expenseReport, setExpenseReport] = useState({
     credited: "",
     debited: "",
+    savedViaCoupons: "",
   });
   const [expenses, setExpenses] = useState([]);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -93,18 +94,24 @@ const ViewExpense = () => {
   const calculateExpense = () => {
     let added = 0;
     let deducted = 0;
+    let savedViaCoupons = 0;
 
     expenses.forEach((expense) => {
-      if (expense.amountType === "add") {
-        added += parseInt(expense.amount);
-      } else if (expense.amountType === "remove") {
-        deducted += parseInt(expense.amount);
+      if (expense.couponApplied === "1") {
+        savedViaCoupons += parseInt(expense.amount);
+      } else {
+        if (expense.amountType === "add") {
+          added += parseInt(expense.amount);
+        } else if (expense.amountType === "remove") {
+          deducted += parseInt(expense.amount);
+        }
       }
     });
 
     setExpenseReport({
       credited: added,
       debited: deducted,
+      savedViaCoupons: savedViaCoupons,
     });
   };
 
@@ -131,12 +138,15 @@ const ViewExpense = () => {
     ["Amount (INR)", (item) => <Amount amount={item?.amount} />],
     [
       "Status",
-      (item) => (
-        <StatusPill
-          status={expenseMap[item?.amountType]?.label}
-          className={expenseMap[item?.amountType]?.className}
-        />
-      ),
+      (item) =>
+        item.couponApplied === "1" ? (
+          <StatusPill status="Applied Coupon" className="primary" />
+        ) : (
+          <StatusPill
+            status={expenseMap[item?.amountType]?.label}
+            className={expenseMap[item?.amountType]?.className}
+          />
+        ),
     ],
     ["Description", (item) => item?.desc],
     [
@@ -209,8 +219,21 @@ const ViewExpense = () => {
               <div className="credited-amount">₹ {expenseReport.credited}</div>
             </div>
             <div className="error expense-container">
-              <div className="debited-label">Deducted | Debited</div>
+              <div className="debited-label">Expenditure | Debited</div>
               <div className="debited-amount">₹ {expenseReport.debited}</div>
+            </div>
+            <div className="primary expense-container">
+              <div className="debited-label">Saved via Coupons</div>
+              <div className="debited-amount">
+                ₹ {expenseReport.savedViaCoupons}
+              </div>
+            </div>
+            <hr />
+            <div className="info expense-container">
+              <div className="debited-label">Remaining Amount</div>
+              <div className="debited-amount">
+                ₹ {expenseReport.credited - expenseReport.debited}
+              </div>
             </div>
           </ModalBody>
         </ModalContent>

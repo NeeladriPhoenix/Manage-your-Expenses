@@ -22,3 +22,13 @@
   background: rgba(209, 45, 45, 0.1);
   color: #d12d2d;
 }
+
+.primary {
+  background: rgba(11, 112, 231, 0.1);
+  color: dodgerblue;
+}
+
+.info {
+  background: rgba(205, 130, 20, 0.1);
+  color: #cd8214;
+}

@@ -27,6 +27,7 @@ const UpdateDetailsForm = ({
   const [updatedDesc, setUpdatedDesc] = useState("");
   const [updatedAmount, setUpdatedAmount] = useState("");
   const [updatedAmountType, setUpdatedAmountType] = useState("");
+  const [updatedCouponApplied, setUpdatedCouponApplied] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -52,6 +53,7 @@ const UpdateDetailsForm = ({
         desc: updatedDesc,
         amount: updatedAmount,
         amountType: updatedAmountType,
+        couponApplied: updatedCouponApplied,
       });
 
     toast({
@@ -107,6 +109,19 @@ const UpdateDetailsForm = ({
               value={updatedAmountType}
               onChange={(event) => {
                 setUpdatedAmountType(event.target.value);
+              }}
+            />
+            <SelectInput
+              name="coupons"
+              label="Coupon Applied"
+              options={[
+                { label: "Yes", value: 1 },
+                { label: "No", value: 0 },
+              ]}
+              largeWidth={true}
+              value={updatedCouponApplied}
+              onChange={(event) => {
+                setUpdatedCouponApplied(event.target.value);
               }}
             />
             <PrimaryButton
