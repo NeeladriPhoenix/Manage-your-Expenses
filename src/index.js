@@ -5,13 +5,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
+import { StateProvider } from "./StateProvider";
+import reducer, { initialState } from "./reducer";
+
 import { ChakraProvider } from "@chakra-ui/react";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
       <BrowserRouter>
-        <App />
+        <StateProvider reducer={reducer} initialState={initialState}>
+          <App />
+        </StateProvider>
       </BrowserRouter>
     </ChakraProvider>
   </React.StrictMode>,

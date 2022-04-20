@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { TextInput, TextArea, AmountField, SelectInput } from "../ui/Input";
 import { PrimaryButton } from "../ui/Button";
 
 import db from "../firebase";
 import firebase from "firebase";
+import { useStateValue } from "../StateProvider";
 
 import { useToast } from "@chakra-ui/react";
 
@@ -27,6 +28,7 @@ const AddExpenses = () => {
   const [couponApplied, setCouponApplied] = useState(0);
 
   const toast = useToast();
+  const [{ user }, dispatch] = useStateValue();
 
   const isDate = function (date) {
     const dateArraySplit = date.split("/");
@@ -47,7 +49,9 @@ const AddExpenses = () => {
       const dateArraySplit = date.split("/");
       const collectionName = `${dateArraySplit[1]}-${dateArraySplit[2]}`;
 
-      db.collection("expenses")
+      db.collection(user.email)
+        .doc(user.email)
+        .collection("expenses")
         .doc(collectionName)
         .collection(collectionName)
         .add({
@@ -59,14 +63,18 @@ const AddExpenses = () => {
           timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
         });
 
-      const events = await firebase.firestore().collection("periods");
+      const events = await firebase
+        .firestore()
+        .collection(user.email)
+        .doc(user.email)
+        .collection("periods");
       let exists = false;
       events.get().then((querySnapshot) => {
         const tempDoc = querySnapshot.docs.map((doc) => {
           if (doc.data().periodValue === collectionName) exists = true;
         });
         if (!exists)
-          db.collection("periods").add({
+          db.collection(user.email).doc(user.email).collection("periods").add({
             periodValue: collectionName,
             timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
           });

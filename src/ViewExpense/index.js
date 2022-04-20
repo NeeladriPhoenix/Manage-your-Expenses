@@ -10,6 +10,7 @@ import UpdateDetailsForm from "./UpdateDetailsForm";
 
 import db from "../firebase";
 import firebase from "firebase";
+import { useStateValue } from "../StateProvider";
 
 import {
   Modal,
@@ -47,10 +48,13 @@ const ViewExpense = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const [{ user }, dispatch] = useStateValue();
 
   const fetchPeriods = async () => {
     const events = await firebase
       .firestore()
+      .collection(user.email)
+      .doc(user.email)
       .collection("periods")
       .orderBy("timeStamp", "desc");
 
@@ -73,6 +77,8 @@ const ViewExpense = () => {
   const getExpensesData = async () => {
     const events = await firebase
       .firestore()
+      .collection(user.email)
+      .doc(user.email)
       .collection("expenses")
       .doc(selectedPeriod)
       .collection(selectedPeriod)
@@ -116,7 +122,9 @@ const ViewExpense = () => {
   };
 
   const deleteRow = (id) => {
-    db.collection("expenses")
+    db.collection(user.email)
+      .doc(user.email)
+      .collection("expenses")
       .doc(selectedPeriod)
       .collection(selectedPeriod)
       .doc(id)

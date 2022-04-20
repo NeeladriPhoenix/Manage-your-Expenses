@@ -6,7 +6,7 @@ import { AddIcon, ViewIcon } from "@chakra-ui/icons";
 const Sidebar = () => {
   return (
     <div className="sidebar__container">
-      <Link to="/">
+      <Link to="/view-expenses">
         <div className="sidebar__link">
           <ViewIcon />
           <div className="sidebar__linkLabel">View Expenses</div>

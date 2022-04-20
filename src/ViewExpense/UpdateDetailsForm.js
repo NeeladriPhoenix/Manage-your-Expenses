@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { TextArea, AmountField, SelectInput } from "../ui/Input";
 import { PrimaryButton } from "../ui/Button";
 import { amountTypes } from "../AddExpenses";
+import { useStateValue } from "../StateProvider";
 
 import db from "../firebase";
 
@@ -31,6 +32,7 @@ const UpdateDetailsForm = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (openDrawer) onOpen();
@@ -45,7 +47,9 @@ const UpdateDetailsForm = ({
 
   const updateExpense = (event) => {
     event.preventDefault();
-    db.collection("expenses")
+    db.collection(user.email)
+      .doc(user.email)
+      .collection("expenses")
       .doc(selectedPeriod)
       .collection(selectedPeriod)
       .doc(item.id)
