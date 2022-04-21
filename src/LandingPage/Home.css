@@ -1,0 +1,39 @@
+.home {
+  background-color: #062489;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.home-left > .title > h1 {
+  font-size: 3.5em;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.home-left {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  width: 45%;
+  padding: 15% 8%;
+}
+
+.home-left > .description > h3 {
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: capitalize;
+  text-align: justify;
+  font-weight: 500;
+  padding-top: 30px;
+}
+
+.btn > Button {
+  background: -webkit-linear-gradient(right, #fe998b, #fa768d, #f78ca0);
+  color: #fff;
+  padding: 15px 60px;
+  font-weight: bold;
+  font-size: 1.3em;
+}

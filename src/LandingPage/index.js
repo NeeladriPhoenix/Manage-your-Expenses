@@ -1,29 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { auth, provider } from "../firebase";
-import { useStateValue } from "../StateProvider";
-import { actionTypes } from "../reducer";
+import Home from "./Home";
+import Description from "./Description";
+import Review from "./Review";
 
 const LandingPage = () => {
-  const [state, dispatch] = useStateValue();
-
-  const signIn = () => {
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        dispatch({
-          type: actionTypes.SET_USER,
-          user: result.user,
-        });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
   return (
     <div>
-      <button onClick={signIn}>Login</button>
+      <Home />
+      <Description />
+      <Review />
     </div>
   );
 };

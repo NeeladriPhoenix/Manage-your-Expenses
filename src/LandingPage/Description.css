@@ -1,0 +1,35 @@
+.description-title>h1 {
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 30px;
+    font-size: 2.5em;
+}
+
+.workPage-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 60px 5%;
+}
+
+.workPage-row-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    line-height: 2;
+    width: 30%;
+}
+
+.workPage-row-container>img {
+    width: 60%;
+    height: 60%;
+}
+
+.workPage-row-container>h3 {
+    color: #ef4f5f;
+}
+
+.workPage-row-container>p {
+    font-size: 14px;
+}
+
