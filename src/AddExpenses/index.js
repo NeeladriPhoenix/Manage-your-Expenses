@@ -111,7 +111,7 @@ const AddExpenses = () => {
         <TextInput
           label="Date"
           name="date"
-          placeholder="Enter Date"
+          placeholder="Enter Date (Format : dd/mm/yyyy)"
           largeWidth={true}
           value={date}
           onChange={(event) => {
